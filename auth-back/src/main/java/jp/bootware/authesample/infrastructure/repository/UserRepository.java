@@ -1,18 +1,31 @@
 package jp.bootware.authesample.infrastructure.repository;
 
-import java.util.Optional;
-import jp.bootware.authesample.infrastructure.model.User;
+import jp.bootware.authesample.infrastructure.model.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
-/**
- * @Author: TCMALTUNKAN - MEHMET ANIL ALTUNKAN
- * @Date: 30.12.2019:09:04, Pzt
- **/
+import java.util.Optional;
+
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserInfo, Long> {
 
-  Optional<User> findByEmail(String email);
+  Optional<UserInfo> findByEmail(String email);
 
-  Boolean existsByEmail(String email);
+  Optional<UserInfo> findByUsername(String username);
+
+  default UserInfo findByEmailOrUsername(String emailOrUsername) {
+    Optional<UserInfo> userInfoOpt = Optional.empty();
+
+    if(emailOrUsername.matches(".+@.+")) {
+      userInfoOpt = findByEmail(emailOrUsername);
+    } else {
+      userInfoOpt = findByUsername(emailOrUsername);
+    }
+
+    UserInfo userInfo = userInfoOpt
+        .orElseThrow(() -> new UsernameNotFoundException("User not found with userId " + emailOrUsername));
+
+    return userInfo;
+  }
 }

@@ -61,11 +61,46 @@
       <id>migrate</id>
 
       <build>
-        <defaultGoal>process-resources exec:java</defaultGoal>
+        <defaultGoal>clean process-resources exec:java</defaultGoal>
 
         <resources>
           <resource>
             <directory>src/main/resources</directory>
+          </resource>
+          <resource>
+            <directory>src/local/resources</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
+
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <configuration>
+              <mainClass>${flyway.mainClass}</mainClass>
+              <cleanupDaemonThreads>false</cleanupDaemonThreads>
+              <commandlineArgs>clean migrate info -configFiles=${project.build.outputDirectory}/flyway.properties -validateOnMigrate=false</commandlineArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+
+      </build>
+    </profile>
+
+    <profile>
+      <id>migrate-test</id>
+
+      <build>
+        <defaultGoal>clean process-resources exec:java</defaultGoal>
+
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+          </resource>
+          <resource>
+            <directory>src/test/resources</directory>
           </resource>
           <resource>
             <directory>src/local/resources</directory>

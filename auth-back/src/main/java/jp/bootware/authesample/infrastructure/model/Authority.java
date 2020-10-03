@@ -1,21 +1,14 @@
 package jp.bootware.authesample.infrastructure.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.io.Serializable;
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.NotNull;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class Authority implements Serializable {
@@ -32,7 +25,7 @@ public class Authority implements Serializable {
   @JsonIgnore
   @ToString.Exclude
   @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<User> users;
+  private Set<UserInfo> userInfos;
 
   public GrantedAuthority grantedAuthority() {
     return new SimpleGrantedAuthority(this.name);

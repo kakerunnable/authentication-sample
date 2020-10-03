@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /test
+    context-path: /sample
 
 spring:
   datasource:
@@ -9,8 +9,6 @@ spring:
     password: ${db.password}
   jpa:
     show-sql: true
-#    hibernate:
-#      ddl-auto: update
     properties:
       hibernate:
         jdbc:
@@ -21,7 +19,7 @@ spring:
         order_updates: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-authentication-test:
+authentication:
   auth:
     tokenSecret: myTokenSecret
     tokenExpirationMsec: 3600000 #1 hour

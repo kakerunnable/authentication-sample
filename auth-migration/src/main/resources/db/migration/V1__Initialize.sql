@@ -27,3 +27,5 @@ CREATE TABLE user_authority (
 
 CREATE SEQUENCE authority_sequence;
 CREATE SEQUENCE user_sequence;
+
+
