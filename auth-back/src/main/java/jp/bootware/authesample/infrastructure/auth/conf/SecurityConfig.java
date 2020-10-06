@@ -1,5 +1,6 @@
 package jp.bootware.authesample.infrastructure.auth.conf;
 
+import jp.bootware.authesample.infrastructure.auth.Role;
 import jp.bootware.authesample.infrastructure.auth.service.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -71,6 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/**/*.css",
             "/**/*.js").permitAll()
         .antMatchers("/auth/**").permitAll()
+        .antMatchers("/user/**").hasRole(Role.USER.name())
+        .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
         .anyRequest().authenticated();
 
     http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
