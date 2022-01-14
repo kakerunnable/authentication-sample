@@ -24,5 +24,5 @@ Initialize test data
 ./mvnw -f auth-migration -P migrate-test
 ```
 
- - email: admin@bootware.jp
+ - email: admin@mail.com
  - password: password
